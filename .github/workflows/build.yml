@@ -1,0 +1,24 @@
+name: Angular CI
+on:
+  push:
+    branches:
+      - '*'
+jobs:
+  install-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.12.x]
+    steps:
+      - uses: actions/checkout@master
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+      - name: Install and Test
+        run: |
+          bun install
+          bun run lint
+          bun run test:single-run
+        env:
+          CI: true
